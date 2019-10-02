@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Run and Jump</title>
+	
+</head>
+<body>
+	 <canvas id="canvas" width="650" height="305" ></canvas>
+   <script>
+     
+      function Animation(rate) {
+        this.LastTime = 0;
+        this.Rate = rate;
+        this.update = function () {};
+        this.render = function () {};
+      }
+
+       Animation.prototype.run = function(time) {
+        if((time - this.LastTime) > this.Rate ) {
+          this.LastTime = time;
+          this.update();
+        }
+        this.render();
+      };
+
+   let ninja = new Animation(50);
+
+      ninja.frame_num = 0;
+
+      ninja.get_frame = function() {
+        if(this.frame_num >=0 ) {
+          return {x:(this.frame_num *79.4),y:0 };
+        }
+      }
+
+      ninja.update = function () {
+        this.frame_num++;
+        if(this.frame_num > 9) this.frame_num = 0;
+      }
+
+
+      ninja.render = function () {
+          var frame = this.get_frame();
+
+          ctx.drawImage(runing,frame.x,frame.y,79.4,100,
+                            110,210,79.4,100);
+
+          ctx.drawImage(jumping,frame.x,frame.y,79.4,100,
+                            210,150,79.4,100);
+      }
+
+ function MainLoop (time) {
+
+ninja.run(time);
+requestAnimationFrame(MainLoop);
+
+  };
+
+let  canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+
+     let runing = new Image();
+     runing.src = 'run.png';
+     let jumping = new Image();
+     jumping.src = 'jump.png';
+
+  jumping.onload = function(time){
+
+      requestAnimationFrame(MainLoop);
+
+    };
+
+         </script>
+
+   
+</body>
+</html>

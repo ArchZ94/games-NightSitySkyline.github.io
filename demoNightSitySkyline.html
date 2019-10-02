@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	
+</head>
+<body>
+	 <canvas id="canvas" width="650" height="305" ></canvas>
+   <script>
+     
+      function Animation(rate) {
+        this.LastTime = 0;
+        this.Rate = rate;
+        this.update = function () {};
+        this.render = function () {};
+      }
+
+       Animation.prototype.run = function(time) {
+        if((time - this.LastTime) > this.Rate ) {
+          this.LastTime = time;
+          this.update();
+        }
+        this.render();
+      };
+   
+    
+
+     //Moon 
+
+     let layer1 = new Animation(30);
+     layer1.render = function() {
+      //context.drawImage(img, x, y);
+      //context.drawImage(img, x, y, width, height);
+      //context.drawImage(img, sx, sy, swidth, sheight, x, y, width, height);
+
+      ctx.drawImage(moon,0,0,964,305,
+                            0,0,964,305);
+
+     }
+      //Clouds
+       let layer2 = new Animation(30);
+      layer2.sx = 0;
+      layer2.sy = 0;
+      layer2.w = 895;
+      layer2.dx = 0;
+      layer2.speed = 1;
+
+      layer2.update = function () {
+        this.dx += this.speed;
+          if(this.dx > this.w) {
+          this.dx -= this.w;
+        }
+        
+      };
+
+      layer2.render = function () {
+        ctx.drawImage(clouds,this.sx+this.dx,this.sy,895,253,
+                          0,0,895,253);
+         if(this.dx > (this.w - 895)) {
+          ctx.drawImage(clouds, this.sx,this.sy,895,253,
+                            this.w - this.dx,0,895,253);
+        }
+       
+      };
+
+      //Sity
+
+      let layer3 = new Animation(30);
+      layer3.sx = 0;
+      layer3.sy = 0;
+      layer3.w = 763;
+      layer3.dx = 0;
+      layer3.speed = 1.5;
+
+      layer3.update = function () {
+        this.dx += this.speed;
+          if(this.dx > this.w) {
+          this.dx -= this.w;
+        }
+        
+      };
+
+      layer3.render = function () {
+        ctx.drawImage(sity,this.sx+this.dx,this.sy,763,305,
+                          0,0,763,305);
+         if(this.dx > (this.w - 763)) {
+          ctx.drawImage(sity, this.sx,this.sy,763,305,
+                            this.w - this.dx,0,763,305);
+        }
+       
+      };
+
+      //Tree
+
+      let layer4 = new Animation(30);
+      layer4.sx = 0;
+      layer4.sy = 0;
+      layer4.w = 908;
+      layer4.dx = 0;
+      layer4.speed = 2;
+
+      layer4.update = function () {
+        this.dx += this.speed;
+          if(this.dx > this.w) {
+          this.dx -= this.w;
+        }
+
+        
+      };
+
+      layer4.render = function () {
+        ctx.drawImage(tree,this.sx+this.dx,this.sy,908,174,
+                          0,131,908,174);
+         if(this.dx > (this.w - 763)) {
+          ctx.drawImage(tree, this.sx,this.sy,908,174,
+                            this.w - this.dx,131,908,174);
+        }
+       
+      };
+
+      //Grass
+
+       let layer5 = new Animation(30);
+      layer5.sx = 0;
+      layer5.sy = 0;
+      layer5.w = 964;
+      layer5.dx = 0;
+      layer5.speed = 5;
+
+      layer5.update = function () {
+        this.dx += this.speed;
+          if(this.dx > this.w) {
+          this.dx -= this.w;
+        }
+        
+      };
+
+      layer5.render = function () {
+        ctx.drawImage(grass,this.sx+this.dx,this.sy,964,37,
+                          0,268,964,37);
+         if(this.dx > (this.w - 964)) {
+          ctx.drawImage(grass, this.sx,this.sy,964,37,
+                            this.w - this.dx,268,964,37);
+        }
+       
+      };
+
+      //Ninja_run
+
+      let ninja = new Animation(60);
+
+      ninja.frame_num = 0;
+
+      ninja.get_frame = function() {
+        if(this.frame_num >=0 ) {
+          return {x:(this.frame_num *79.4),y:0 };
+        }
+      }
+
+      ninja.update = function () {
+        this.frame_num++;
+        if(this.frame_num > 9) this.frame_num = 0;
+      }
+
+
+      ninja.render = function () {
+          var frame = this.get_frame();
+
+          ctx.drawImage(runing,frame.x,frame.y,79.4,100,
+                            110,210,79.4,100);
+
+         //  ctx.drawImage(jumping,frame.x,frame.y,79.4,100,
+                           // 210,150,79.4,100);
+      }
+
+// нужно создать две анимации, ниндзя бегущий и ниндзя прыгающий, создать две разные функции и испольщовать их в addEventListener
+
+      let layer6 = new Animation(1);
+      layer6.sx = 0;
+      layer6.sy = 0;
+      layer6.w = 650;
+      layer6.dx = 0;
+      layer6.speed = 5;
+
+      layer6.update = function () {
+        this.dx += this.speed;
+          if(this.dx > this.w) {
+          this.dx -= this.w;
+        }
+        
+      };
+
+      layer6.render = function () {
+        ctx.drawImage(post,this.sx+this.dx,this.sy,25,50,
+                          0,258,25,50);
+         if(this.dx > (this.w - 650)) {
+          ctx.drawImage(post, this.sx,this.sy,25,50,
+                            this.w - this.dx,258,25,50);
+
+
+        }
+       
+      };
+
+//после чего создать логику столкновения с спочтовыми ящиками используя каординаты осей по x && y;в конечном итоге при столкновение должен сработать window.reloadLocation
+          
+      /*Jump
+
+        let jump = new Animation(50);
+        jump.frame_num = 0;
+        jump.get_frame = function(){
+          if(this.frame_num>=0) {
+            return{x:(this.frame_num * )}
+          }
+        }*/
+
+      function MainLoop (time) {
+        layer1.run(time);
+        layer2.run(time);
+        layer3.run(time);
+        layer4.run(time);
+        layer5.run(time);
+        ninja.run(time);
+        layer6.run(time);
+        requestAnimationFrame(MainLoop);
+
+     };
+
+let  canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+   
+
+     let moon = new Image();
+     moon.src = 'moon.png';
+
+     let runing = new Image();
+     runing.src = 'run.png';
+
+     let jumping = new Image();
+     jumping.src = 'jump.png';
+
+     let post = new Image();
+     post.src = 'post.png';
+
+     let clouds = new Image();
+     clouds.src = 'clouds.png';
+
+     let grass = new Image();
+     grass.src = 'grass.png';
+
+     let sity = new Image();
+     sity.src = 'sity.png';
+
+     let tree = new Image();
+     tree.src = 'tree.png';
+
+    tree.onload = function(time){
+
+      requestAnimationFrame(MainLoop);
+
+    };
+   </script>
+
+   
+</body>
+</html>
